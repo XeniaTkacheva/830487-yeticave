@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Xenia Tkacheva](https://up.htmlacademy.ru/php/7/user/830487).
-* Наставник: `Неизвестно`.
+* Наставник: [Илья Кондрашов](https://htmlacademy.ru/profile/id644427).
 
 ---
 
