@@ -1,6 +1,8 @@
 <?php
 $is_auth = rand(0, 1);
 
+date_default_timezone_set('Europe/Berlin');
+
 $site_name = ['Главная страница', 'Регистрация аккаунта', 'Вход на сайт', 'Лоты по категории', 'Результаты поиска', 'Добавление нового лота', 'Просмотр лота', 'Список моих ставок'];
 $user_name = 'Xenia Tkacheva'; // укажите здесь ваше имя
 $user_avatar = 'img/user.jpg';
