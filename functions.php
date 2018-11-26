@@ -31,3 +31,12 @@ function esc($str) {
 
     return $text;
 };
+
+function to_midnight() {
+    $cur_time = strtotime('now');
+    $midnight = strtotime('tomorrow midnight');
+    $sec_to_midnight = $midnight - $cur_time;
+    $hours_to_midnight = floor(($sec_to_midnight) / 3600);
+    $minutes_to_midnight = floor(($sec_to_midnight - $hours_to_midnight * 3600) / 60);
+    return $hours_to_midnight . ' : ' . $minutes_to_midnight;
+};
