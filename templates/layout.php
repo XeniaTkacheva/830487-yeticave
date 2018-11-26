@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?= $site_name; ?></title>
+    <title><?=esc($site_name); ?></title>
     <link href="css/normalize.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -27,7 +27,7 @@
                         <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
                     </div>
                     <div class="user-menu__logged">
-                        <p><?=$user_name; ?></p>
+                        <p><?=esc($user_name); ?></p>
                     </div>
                 <?php else: ?>
                     <ul class="user-menu__list">
@@ -45,7 +45,7 @@
     </header>
 
     <main class="container">
-        <?= $content; ?>
+        <?=$content; ?>
     </main>
 </div>
 
@@ -55,7 +55,7 @@
             <?php foreach ($categories as $key => $val): ?>
                 <!--заполните этот список из массива категорий-->
                 <li class="nav__item">
-                    <a href="pages/all-lots.html"><?=$val; ?></a>
+                    <a href="pages/all-lots.html"><?=esc($val); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>

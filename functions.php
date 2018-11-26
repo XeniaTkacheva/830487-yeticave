@@ -26,3 +26,8 @@ $pricef = $price_int;
 return ($pricef . ' &#x20BD;');
 };
 
+function esc($str) {
+    $text = htmlspecialchars($str);
+
+    return $text;
+};
