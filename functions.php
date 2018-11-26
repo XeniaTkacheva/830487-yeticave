@@ -38,5 +38,6 @@ function to_midnight() {
     $sec_to_midnight = $midnight - $cur_time;
     $hours_to_midnight = floor(($sec_to_midnight) / 3600);
     $minutes_to_midnight = floor(($sec_to_midnight - $hours_to_midnight * 3600) / 60);
-    return $hours_to_midnight . ' : ' . $minutes_to_midnight;
+    $time_format = sprintf('%02d:%02d', $hours_to_midnight, $minutes_to_midnight);
+    return $time_format;
 };
