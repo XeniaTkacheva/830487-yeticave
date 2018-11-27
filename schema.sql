@@ -29,7 +29,6 @@ CREATE TABLE lots (
   price INT(11) NOT NULL,
   dt_end TIMESTAMP NOT NULL,
   rate_step INT(11),
-  rate_id INT(11) NOT NULL,
   user_id INT(11) NOT NULL,
   FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
