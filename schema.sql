@@ -5,8 +5,9 @@ DEFAULT COLLATE utf8_general_ci;
 USE yeticave;
 
 CREATE TABLE categories (
-  id INT(11) AUTO_INCREMENT PRIMARY KEY,
-  name CHAR(25) NOT NULL UNIQUE
+  id INT(11) NOT NULL PRIMARY KEY,
+  name CHAR(25) NOT NULL UNIQUE,
+  sort INT(11)
 );
 
 CREATE TABLE users (
@@ -30,6 +31,8 @@ CREATE TABLE lots (
   dt_end TIMESTAMP NOT NULL,
   rate_step INT(11),
   user_id INT(11) NOT NULL,
+  winner_id INT(11),
+  KEY lot_dt (cat_id, dt_add),
   FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
@@ -43,3 +46,4 @@ CREATE TABLE rates (
   FOREIGN KEY (`lot_id`) REFERENCES `lots` (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
+
