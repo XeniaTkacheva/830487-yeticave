@@ -31,7 +31,7 @@ CREATE TABLE lots (
   dt_end TIMESTAMP NOT NULL,
   rate_step INT(11),
   user_id INT(11) NOT NULL,
-  winner_id INT(11),
+  winner_id INT(11) DEFAULT NULL,
   KEY lot_dt (cat_id, dt_add),
   FOREIGN KEY (`cat_id`) REFERENCES `categories` (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
@@ -46,4 +46,7 @@ CREATE TABLE rates (
   FOREIGN KEY (`lot_id`) REFERENCES `lots` (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );
+
+alter table lots
+  add   FOREIGN KEY (`winner_id`) REFERENCES `users` (`id`);
 
