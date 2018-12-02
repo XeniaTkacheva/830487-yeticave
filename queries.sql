@@ -24,7 +24,7 @@ INSERT INTO users
 // Добавляем объявления
 
 INSERT INTO lots
-  (name, cat_id, price, picture, dt_end, rate_step, user_id)
+  (name, cat_id, price_start, picture, dt_end, rate_step, user_id)
 VALUES
   ('2014 Rossignol District Snowboard', 1, 10999, 'img/lot-1.jpg', '2018-12-30 20:00:00', 500, 2),
   ('DC Ply Mens 2016/2017 Snowboard', 1, 159999, 'img/lot-2.jpg', '2018-12-21 15:00:00', 10000, 1),
@@ -50,15 +50,23 @@ SELECT * FROM categories;
 
 // Запрос: получить самые новые, открытые лоты
 
-SELECT dt_add, l.name, price, picture, c.name FROM lots l JOIN categories c ON l.cat_id = c.id
-  WHERE dt_end > CURRENT_TIMESTAMP and winner_id IS NULL
-  ORDER BY dt_add DESC;
+SELECT DISTINCT l.id, l.name, price_start, picture, c.name, MAX(IF(rate_sum IS NULL, price_start, rate_sum)) AS price, COUNT(lot_id) AS rates_number
+FROM lots l
+JOIN categories c ON l.cat_id = c.id
+LEFT JOIN rates r ON l.id = r.lot_id
+WHERE dt_end > CURRENT_TIMESTAMP and winner_id IS NULL
+GROUP BY l.id, l.name, price_start, picture, c.name
+ORDER BY l.id DESC;
 
 // Показать лот по его id
 
-SELECT dt_add, l.name, cat_id, c.name, picture, price, dt_end, rate_step, user_id, winner_id FROM lots l
-  JOIN categories c ON l.cat_id = c.id
-  WHERE l.id = 3;
+SELECT l.dt_add, l.name, cat_id, c.name, picture, price_start, dt_end, rate_step, MAX(IF(rate_sum IS NULL, l.price_start, rate_sum)) AS price, l.user_id, u.email AS 'продавец'
+FROM lots l
+JOIN categories c ON l.cat_id = c.id
+JOIN rates r ON l.id = r.lot_id
+JOIN users u ON u.id = l.user_id
+WHERE l.id = 1
+GROUP BY l.id, l.name, price_start, picture, c.name, rate_step;
 
 // Обновление названия лота по id
 

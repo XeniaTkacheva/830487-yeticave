@@ -27,7 +27,7 @@ CREATE TABLE lots (
   description CHAR(255),
   cat_id INT(11) NOT NULL,
   picture CHAR(80) NOT NULL,
-  price INT(11) NOT NULL,
+  price_start INT(11) NOT NULL,
   dt_end TIMESTAMP NOT NULL,
   rate_step INT(11),
   user_id INT(11) NOT NULL,
