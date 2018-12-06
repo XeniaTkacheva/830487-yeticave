@@ -51,9 +51,9 @@ function to_midnight() {
 
 // Функция расчета времени до окончания лота
 
-function check_time_end() {
+function check_time_end($dt_end) {
     $cur_time = strtotime('now');
-    $end_time = strtotime('dt_end');
+    $end_time = strtotime($dt_end);
     $sec_to_end = $end_time - $cur_time;
     $days_to_end = floor(($sec_to_end) / 86400);
     $hours_to_end = floor(($sec_to_end - $days_to_end * 86400) / 3600);

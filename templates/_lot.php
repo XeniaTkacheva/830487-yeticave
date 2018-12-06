@@ -11,8 +11,7 @@
                 <span class="lot__cost"><?php echo format_price(esc($val['price'])); ?></span>
             </div>
             <div class="lot__timer timer">
-                <?=esc($val['dt_end']); ?>
-<!--                --><?//=check_time_end(); ?>
+                <?=check_time_end($val['dt_end']); ?>
             </div>
         </div>
     </div>

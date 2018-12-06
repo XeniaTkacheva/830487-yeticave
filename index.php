@@ -39,12 +39,11 @@ $sql = 'SELECT DISTINCT l.id, l.name AS title, price_start, picture AS image_url
 $result = checkQuery($con, $sql);
 
 $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
 // Подключаем шаблоны
 
 $page_content = include_template('index.php', [
     'categories' => $categories,
-    'lots' => $lots
+    'lots' => $lots,
 ]);
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
