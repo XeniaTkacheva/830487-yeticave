@@ -74,3 +74,17 @@ function checkQuery($con, $sql) {
     }
     return $result;
 };
+function getLotById ($con, $lot_get) {
+    $sql = 'SELECT l.id, l.dt_add, l.name AS title, cat_id, c.name, picture, price_start, description, dt_end, rate_step, MAX(IF(rate_sum IS NULL, l.price_start, rate_sum)) AS price, l.user_id, u.email AS \'продавец\'
+    FROM lots l
+    JOIN categories c ON l.cat_id = c.id
+    LEFT JOIN rates r ON l.id = r.lot_id
+    JOIN users u ON u.id = l.user_id
+    WHERE l.id = ' . $lot_get . '
+    GROUP BY l.id, l.name, price_start, picture, c.name, rate_step;';
+
+    $result = checkQuery($con, $sql);
+    $lot = mysqli_fetch_assoc($result);
+
+    return $lot;
+};
