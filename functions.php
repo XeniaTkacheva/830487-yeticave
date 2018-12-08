@@ -81,7 +81,7 @@ function getLotById ($con, $lot_get) {
     LEFT JOIN rates r ON l.id = r.lot_id
     JOIN users u ON u.id = l.user_id
     WHERE l.id = ' . $lot_get . '
-    GROUP BY l.id, l.name, price_start, picture, c.name, rate_step;';
+    GROUP BY l.id;';
 
     $result = checkQuery($con, $sql);
     $lot = mysqli_fetch_assoc($result);

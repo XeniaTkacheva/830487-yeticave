@@ -3,8 +3,12 @@ require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
 
-    $lot_get = (int) $_GET['id'] ?? [];
-    $lot = getLotById ($con, $lot_get);
+$lot_get = (int) $_GET['id'];
+$lot = getLotById ($con, $lot_get);
+if (!$lot) {
+    header("Location: error.php?e=404");
+    print('Запрашиваемый товар не найден');
+}
 
 $page_content = include_template('lot.php', [
     'categories' => $categories,
