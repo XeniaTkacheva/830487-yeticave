@@ -88,6 +88,16 @@ function getLotById ($con, $lot_get) {
 
     return $lot;
 };
+
+function getCatIdByName ($con, $cat_name) {
+    $sql = 'SELECT id
+    FROM categories 
+    WHERE name = "' . $cat_name . '";';
+
+    $result = checkQuery($con, $sql);
+    $cat_id = mysqli_fetch_assoc($result);
+    return (int) $cat_id;
+};
     function db_get_prepare_stmt($link, $sql, $data = []) {
         $stmt = mysqli_prepare($link, $sql);
         if ($data) {
