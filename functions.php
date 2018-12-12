@@ -80,7 +80,7 @@ function getLotById ($con, $lot_get) {
     JOIN categories c ON l.cat_id = c.id
     LEFT JOIN rates r ON l.id = r.lot_id
     JOIN users u ON u.id = l.user_id
-    WHERE l.id = ' . esc($lot_get) . '
+    WHERE l.id = ' . $lot_get . '
     GROUP BY l.id;';
 
     $result = checkQuery($con, $sql);
@@ -92,11 +92,19 @@ function getLotById ($con, $lot_get) {
 function getCatIdByName ($con, $cat_name) {
     $sql = 'SELECT id
     FROM categories 
-    WHERE name = "' . $cat_name . '";';
+    WHERE name = "' . esc($cat_name) . '";';
 
     $result = checkQuery($con, $sql);
-    $cat_id = mysqli_fetch_assoc($result);
-    return (int) $cat_id;
+    $cat_id_arr = mysqli_fetch_assoc($result);
+    if (isset($cat_id_arr) == false) {
+        http_response_code(404);
+        $error = http_response_code();
+        $content = include_template('error_404.php', ['error' => $error]);
+        print($content);
+        die;
+    }
+    $cat_id = (int) $cat_id_arr['id'];
+    return $cat_id;
 };
     function db_get_prepare_stmt($link, $sql, $data = []) {
         $stmt = mysqli_prepare($link, $sql);
