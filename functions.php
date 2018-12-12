@@ -80,7 +80,7 @@ function getLotById ($con, $lot_get) {
     JOIN categories c ON l.cat_id = c.id
     LEFT JOIN rates r ON l.id = r.lot_id
     JOIN users u ON u.id = l.user_id
-    WHERE l.id = ' . $lot_get . '
+    WHERE l.id = ' . esc($lot_get) . '
     GROUP BY l.id;';
 
     $result = checkQuery($con, $sql);
