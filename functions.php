@@ -74,6 +74,7 @@ function checkQuery($con, $sql) {
     }
     return $result;
 };
+
 function getLotById ($con, $lot_get) {
     $sql = 'SELECT l.id, l.dt_add, l.name AS title, cat_id, c.name, picture, price_start, description, dt_end, rate_step, MAX(IF(rate_sum IS NULL, l.price_start, rate_sum)) AS price, l.user_id, u.email AS \'продавец\'
     FROM lots l
@@ -110,31 +111,38 @@ function getCatIdByName ($con, $cat_name) {
     $cat_id = (int) $cat_id_arr['id'];
     return $cat_id;
 };
-    function db_get_prepare_stmt($link, $sql, $data = []) {
-        $stmt = mysqli_prepare($link, $sql);
-        if ($data) {
-            $types = '';
-            $stmt_data = [];
-            foreach ($data as $value) {
-                $type = null;
-                if (is_int($value)) {
-                    $type = 'i';
-                }
-                else if (is_string($value)) {
-                    $type = 's';
-                }
-                else if (is_double($value)) {
-                    $type = 'd';
-                }
-                if ($type) {
-                    $types .= $type;
-                    $stmt_data[] = $value;
-                }
-            }
-            $values = array_merge([$stmt, $types], $stmt_data);
-            $func = 'mysqli_stmt_bind_param';
-            $func(...$values);
-        }
 
-        return $stmt;
+function db_get_prepare_stmt($link, $sql, $data = []) {
+    $stmt = mysqli_prepare($link, $sql);
+    if ($data) {
+        $types = '';
+        $stmt_data = [];
+        foreach ($data as $value) {
+            $type = null;
+            if (is_int($value)) {
+                $type = 'i';
+            }
+            else if (is_string($value)) {
+                $type = 's';
+            }
+            else if (is_double($value)) {
+                $type = 'd';
+            }
+            if ($type) {
+                $types .= $type;
+                $stmt_data[] = $value;
+            }
+        }
+        $values = array_merge([$stmt, $types], $stmt_data);
+        $func = 'mysqli_stmt_bind_param';
+        $func(...$values);
     }
+
+    return $stmt;
+};
+
+function addAvaterToUser ($con, $user_id, $file_url) {
+    $sql = 'UPDATE users SET avatar = "' . $file_url . '" WHERE id = ' . $user_id . ';';
+    $result = checkQuery($con, $sql);
+    return $result;
+};
