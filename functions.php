@@ -88,3 +88,53 @@ function getLotById ($con, $lot_get) {
 
     return $lot;
 };
+
+function getCatIdByName ($con, $cat_name) {
+    $sql = 'SELECT id
+    FROM categories 
+    WHERE name = "' . mysqli_real_escape_string($con, $cat_name) . '";';
+
+    //    WHERE name = "' . esc($cat_name) . '";';
+
+
+
+    $result = checkQuery($con, $sql);
+    $cat_id_arr = mysqli_fetch_assoc($result);
+    if ($cat_id_arr === null) {
+        http_response_code(404);
+        $error = http_response_code();
+        $content = include_template('error_404.php', ['error' => $error]);
+        print($content);
+        die;
+    }
+    $cat_id = (int) $cat_id_arr['id'];
+    return $cat_id;
+};
+    function db_get_prepare_stmt($link, $sql, $data = []) {
+        $stmt = mysqli_prepare($link, $sql);
+        if ($data) {
+            $types = '';
+            $stmt_data = [];
+            foreach ($data as $value) {
+                $type = null;
+                if (is_int($value)) {
+                    $type = 'i';
+                }
+                else if (is_string($value)) {
+                    $type = 's';
+                }
+                else if (is_double($value)) {
+                    $type = 'd';
+                }
+                if ($type) {
+                    $types .= $type;
+                    $stmt_data[] = $value;
+                }
+            }
+            $values = array_merge([$stmt, $types], $stmt_data);
+            $func = 'mysqli_stmt_bind_param';
+            $func(...$values);
+        }
+
+        return $stmt;
+    }
