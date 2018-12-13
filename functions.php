@@ -92,11 +92,15 @@ function getLotById ($con, $lot_get) {
 function getCatIdByName ($con, $cat_name) {
     $sql = 'SELECT id
     FROM categories 
-    WHERE name = "' . esc($cat_name) . '";';
+    WHERE name = "' . mysqli_real_escape_string($con, $cat_name) . '";';
+
+    //    WHERE name = "' . esc($cat_name) . '";';
+
+
 
     $result = checkQuery($con, $sql);
     $cat_id_arr = mysqli_fetch_assoc($result);
-    if (isset($cat_id_arr) == false) {
+    if ($cat_id_arr === null) {
         http_response_code(404);
         $error = http_response_code();
         $content = include_template('error_404.php', ['error' => $error]);
