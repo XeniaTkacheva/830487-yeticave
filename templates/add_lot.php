@@ -73,7 +73,7 @@
         $value = isset($for_sale['dt_end']) ? esc($for_sale['dt_end']) : ""; ?>
         <div class="form__item <?=$classname;?>">
             <label for="lot-date">Дата окончания торгов</label>
-            <input class="form__input-date" id="lot-date" type="date" name="for_sale[dt_end]" value="<?=$value; ?>" required>
+            <input class="form__input-date" id="lot-date" type="date"  name="for_sale[dt_end]" value="<?=$value; ?>" required>
             <span class="form__error"><?=$errors['dt_end']; ?></span>
         </div>
     </div>

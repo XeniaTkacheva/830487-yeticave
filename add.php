@@ -31,10 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } elseif ($file_type === "image/jpeg") {
                 $file_name = uniqid() . '.jpeg';
             }
-//            $file_name = uniqid() . '.jpg';
-
-
-
             $file_path = __DIR__ . '/img/';
             $file_url = '/img/' . $file_name;
             move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
@@ -55,11 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($for_sale['step']) || $for_sale['step'] <= 0 || $for_sale['step'] !== (string)(int)$for_sale['step'])  {
         $errors['step'] = 'Введите шаг ставки в виде положительного целого числа';
     }
-
-    if (empty($for_sale['dt_end']) || strtotime($for_sale['dt_end']) <= (strtotime('today') + 86399)) {
+    $for_sale['dt_end'] = date("d.m.Y" , strtotime($for_sale['dt_end']));
+    if (empty($for_sale['dt_end']) || $for_sale['dt_end'] < (date('d.m.Y',strtotime('today + 1 day')))) {
         $errors['dt_end'] = 'Введите дату завершения торгов позднее завтрашнего дня';
-    }
-
+    };
     if (count($errors)) {
         $errors['form'] = 'Пожалуйста, исправьте ошибки в форме.';
         $page_content = include_template('add_lot.php', [
@@ -84,19 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($res) {
             $lot = mysqli_insert_id($con);
             header("Location: lot.php?id=" . $lot);
-
+            exit;
         } else {
             $content = include_template('error.php', ['error' => mysqli_error($con)]);
             print $content;
             die;
         }
-
-        $page_content = include_template('lot.php', [
-            'for_sale' => $for_sale,
-            'categories' => $categories,
-            'lots' => $lots,
-            'lot' => $lot,
-        ]);
     }
 
 } else {
