@@ -51,10 +51,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($for_sale['step']) || $for_sale['step'] <= 0 || $for_sale['step'] !== (string)(int)$for_sale['step'])  {
         $errors['step'] = 'Введите шаг ставки в виде положительного целого числа';
     }
-    $for_sale['dt_end'] = date("d.m.Y" , strtotime($for_sale['dt_end']));
-    if (empty($for_sale['dt_end']) || $for_sale['dt_end'] < (date('d.m.Y',strtotime('today + 1 day')))) {
-        $errors['dt_end'] = 'Введите дату завершения торгов позднее завтрашнего дня';
-    };
+//    $for_sale['dt_end'] = date("d.m.Y" , strtotime($for_sale['dt_end']));
+
+    if (!empty($for_sale['dt_end'])) {
+        if (strtotime($for_sale['dt_end']) < strtotime('tomorrow')) {
+            $errors['dt_end'] = 'Введите дату завершения торгов позднее завтрашнего дня';
+        }
+    } else {
+        $errors['dt_end'] = 'Введите дату завершения торгов';
+    }
+    if ($for_sale['dt_end'] !== date("Y-m-d" , strtotime($for_sale['dt_end']))) {
+        $for_sale['dt_end'] = date("Y-m-d" , strtotime($for_sale['dt_end']));
+    }
+
     if (count($errors)) {
         $errors['form'] = 'Пожалуйста, исправьте ошибки в форме.';
         $page_content = include_template('add_lot.php', [
