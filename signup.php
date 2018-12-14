@@ -17,8 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['jpg_img']['name']) && !empty ($_FILES['jpg_img']['name'])) {
         $file_name = $_FILES['jpg_img']['tmp_name'];
 
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_type = finfo_file($finfo, $file_name);
+        $file_type = mime_content_type($file_name);
         if ($file_type !== "image/png" & $file_type !== "image/jpeg" & $file_type !== "image/jpg") {
             $errors['avatar'] = 'Загрузите картинку в формате JPG, JPEG или PNG';
         } else {
@@ -34,10 +33,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
         }
     }
+    if (!empty($new_user['email'])) {
+        if (!filter_var($new_user['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Введите действующий E-mail';
+        } elseif (!checkUniqueEmail($con, $new_user['email'])) {
+            $errors['email'] = 'Пользователь с таким E-mail уже существует. Введите другой E-mail';
+        }
+    }
+    if (!empty($new_user['password'])) {
+        $passwordHash = password_hash($new_user['password'], PASSWORD_DEFAULT);
+    } else {
+        $errors['dt_end'] = 'Введите пароль длиной не менее 8 знаков';
+    }
 
     if (count($errors)) {
         $errors['form'] = 'Пожалуйста, исправьте ошибки в форме.';
-        $page_content = include_template('signup.php', [
+
+        $page_content = include_template('sign_up.php', [
             'new_user' => $new_user,
             'errors' => $errors,
             'dict' => $dict,
@@ -47,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     else {
+        $new_user['password'] = $passwordHash;
         $sql = 'INSERT INTO users (dt_add, email, name, password, contacts)
                 VALUES (NOW(), ?, ?, ?, ?);';
         $stmt = db_get_prepare_stmt($con, $sql, [$new_user['email'], $new_user['user_name'], $new_user['password'], $new_user['contacts']]);
@@ -67,12 +80,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             die;
         }
     }
-};
+} else {
+    $page_content = include_template('sign_up.php', [
+        'categories' => $categories,
+        'lots' => $lots,
+    ]);
+}
 
-$page_content = include_template('sign_up.php', [
-    'categories' => $categories,
-    'lots' => $lots,
-]);
 $layout_content = include_template('layout.php', [
     'content' => $page_content,
     'site_name' => $site_name[0],

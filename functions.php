@@ -146,3 +146,13 @@ function addAvaterToUser ($con, $user_id, $file_url) {
     $result = checkQuery($con, $sql);
     return $result;
 };
+
+function checkUniqueEmail($con, $value) {
+    $sql =  'SELECT id, email FROM users WHERE email = "' . $value . '" LIMIT 1;';
+    $result = checkQuery($con, $sql);
+    $check = mysqli_fetch_assoc($result);
+    if ($check !== null) {
+        return false;
+    }
+    return true;
+};
