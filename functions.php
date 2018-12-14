@@ -148,7 +148,7 @@ function addAvaterToUser ($con, $user_id, $file_url) {
 };
 
 function checkUniqueEmail($con, $value) {
-    $sql =  'SELECT id, email FROM users WHERE email = "' . $value . '" LIMIT 1;';
+    $sql =  'SELECT id, email FROM users WHERE email = "' . mysqli_real_escape_string($con, $value) . '" LIMIT 1;';
     $result = checkQuery($con, $sql);
     $check = mysqli_fetch_assoc($result);
     if ($check !== null) {
