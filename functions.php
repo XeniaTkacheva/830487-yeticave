@@ -97,8 +97,6 @@ function getCatIdByName ($con, $cat_name) {
 
     //    WHERE name = "' . esc($cat_name) . '";';
 
-
-
     $result = checkQuery($con, $sql);
     $cat_id_arr = mysqli_fetch_assoc($result);
     if ($cat_id_arr === null) {
@@ -141,7 +139,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
     return $stmt;
 };
 
-function addAvaterToUser ($con, $user_id, $file_url) {
+function addAvatarToUser ($con, $user_id, $file_url) {
     $sql = 'UPDATE users SET avatar = "' . $file_url . '" WHERE id = ' . $user_id . ';';
     $result = checkQuery($con, $sql);
     return $result;
@@ -156,3 +154,11 @@ function checkUniqueEmail($con, $value) {
     }
     return true;
 };
+
+function getAllAboutUser($con, $value) {
+    $sql =  'SELECT * FROM users WHERE email = "' . mysqli_real_escape_string($con, $value) . '";';
+    $result = checkQuery($con, $sql);
+    $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    return $user;
+}

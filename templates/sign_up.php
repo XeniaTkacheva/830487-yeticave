@@ -15,7 +15,7 @@
     $value = isset($new_user['email']) ? esc($new_user['email']) : ""; ?>
     <div class="form__item <?=$classname;?>"> <!-- form__item--invalid -->
         <label for="email">E-mail*</label>
-        <input id="email" type="text" name="new_user[email]" placeholder="Введите e-mail" value="<?=$value; ?>" maxlength="128">
+        <input id="email" type="email" name="new_user[email]" placeholder="Введите e-mail" value="<?=$value; ?>" maxlength="128">
         <span class="form__error"><?=$errors['email']; ?></span>
     </div>
     <?php $classname = isset($errors['password']) ? "form__item--invalid" : "";
@@ -36,7 +36,7 @@
     $value = isset($new_user['contacts']) ? esc($new_user['contacts']) : ""; ?>
     <div class="form__item <?=$classname;?>">
         <label for="message">Контактные данные*</label>
-        <textarea id="message" name="new_user[contacts]" placeholder="Напишите как с вами связаться" value="<?=$value; ?>" maxlength="255"></textarea>
+        <textarea id="message" name="new_user[contacts]" placeholder="Напишите как с вами связаться" maxlength="255"><?=$value; ?></textarea>
         <span class="form__error"><?=$errors['contacts']; ?></span>
     </div>
     <?php $classname = isset($errors['avatar']) ? "form__item--invalid" : ""; ?>
