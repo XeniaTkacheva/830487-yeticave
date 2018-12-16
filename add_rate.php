@@ -56,7 +56,7 @@ if (isset($_SESSION['user'])) {
             $sql = 'INSERT INTO rates SET rate_sum = ' . mysqli_real_escape_string($con, ((int)$new_rate['cost'])) . ', user_id = ' . $user_id . ', lot_id = ' . $lot['id'] . ';';
             $result = checkQuery($con, $sql);
             if ($result) {
-                header("Location: lot.php.?id=" . $lot['id']);
+                header("Location: lot.php?id=" . $lot['id']);
                 exit;
             } else {
                 $content = include_template('error.php', ['error' => mysqli_error($con)]);
