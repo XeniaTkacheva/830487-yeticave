@@ -78,3 +78,15 @@ WHERE id = 2;
 SELECT  dt_add, rate_sum, user_id, lot_id FROM rates
 WHERE lot_id = 1
 ORDER BY dt_add DESC;
+
+// Добавление новой ставки
+
+INSERT INTO rates
+  SET rate_sum = 29900, user_id = 2, lot_id = 8;
+
+// Запрос: показать все последние ставки по лоту с именами пользователей
+
+SELECT  r.dt_add, rate_sum, user_id, lot_id, u.name FROM rates r
+JOIN users u ON u.id = r.user_id
+WHERE lot_id = 1
+ORDER BY dt_add DESC;

@@ -2,6 +2,7 @@
 require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_user = $_POST['new_user'];
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($new_user['password'])) {
         $passwordHash = password_hash($new_user['password'], PASSWORD_DEFAULT);
     } else {
-        $errors['dt_end'] = 'Введите пароль длиной не менее 8 знаков';
+        $errors['password'] = 'Введите пароль длиной не менее 8 знаков';
     }
 
     if (count($errors)) {
@@ -68,8 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($res) {
             $user_id = mysqli_insert_id($con);
             if (isset($file_url)) {
-                $new_user['avatar'] = $file_url;
-                addAvaterToUser ($con, $user_id, $file_url);
+                addAvatarToUser ($con, $user_id, $file_url);
             }
 
             header("Location: login.php");
@@ -93,6 +93,5 @@ $layout_content = include_template('layout.php', [
     'categories' => $categories ?? [],
     'user_name' => $user_name,
     'user_avatar' => $user_avatar,
-    'is_auth' => $is_auth
 ]);
 print($layout_content);
