@@ -4,6 +4,7 @@ require_once('data.php');
 require_once('queries.php');
 session_start();
 
+
 if (isset($_SESSION['user'])) {
     $user_name = $_SESSION['user']['name'];
     $user_avatar = $_SESSION['user']['avatar'];
@@ -49,6 +50,7 @@ if (isset($_SESSION['user'])) {
                 'lots' => $lots,
                 'lot' => $lot,
                 'rates' => $rates,
+                'rate_add' => $rate_add
                 ]);
         } else {
             $sql = 'INSERT INTO rates SET rate_sum = ' . mysqli_real_escape_string($con, ((int)$new_rate['cost'])) . ', user_id = ' . $user_id . ', lot_id = ' . $lot['id'] . ';';

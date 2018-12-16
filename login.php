@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user_avatar = $_SESSION['user']['avatar'];
         $user = $_SESSION['user'];
 
-        $page_content = include_template('add_lot.php', [
+        $page_content = include_template('index.php', [
             'categories' => $categories,
             'lots' => $lots,
             'user_name' => $user_name]);

@@ -18,33 +18,33 @@
             <p class="lot-item__description"><?=esc($lot['description'])?></p>
         </div>
         <div class="lot-item__right">
-            <?php   if (isset($_SESSION['user'])): ?>
-            <div class="lot-item__state">
-                <div class="lot-item__timer timer">
-                    <?=check_time_end($lot['dt_end']); ?>
-                </div>
-                <div class="lot-item__cost-state">
-                    <div class="lot-item__rate">
-                        <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost"><?=$lot['price']; ?></span>
+            <?php   if (!count($rate_add)): ?>
+                <div class="lot-item__state">
+                    <div class="lot-item__timer timer">
+                        <?=check_time_end($lot['dt_end']); ?>
                     </div>
-                    <div class="lot-item__min-cost">
-                        Мин. ставка <span><?=($lot['price'] + $lot['rate_step']); ?></span>
+                    <div class="lot-item__cost-state">
+                        <div class="lot-item__rate">
+                            <span class="lot-item__amount">Текущая цена</span>
+                            <span class="lot-item__cost"><?=$lot['price']; ?></span>
+                        </div>
+                        <div class="lot-item__min-cost">
+                            Мин. ставка <span><?=($lot['price'] + $lot['rate_step']); ?></span>
+                        </div>
                     </div>
-                </div>
 
-                <form class="lot-item__form" action="/add_rate.php" method="post">
-                    <?php $classname = isset($errors['cost']) ? "form__item--invalid" : "";
-                    $value = isset($new_rate['cost']) ? esc($new_rate['cost']) : ($lot['price'] + $lot['rate_step']); ?>
-                    <p class="lot-item__form-item form__item <?=$classname; ?>">
-                        <label for="cost">Ваша ставка</label>
-                        <input id="cost" type="text" name="new_rate[cost]" placeholder="от <?=($lot['price'] + $lot['rate_step']); ?>">
-                        <input type="hidden" name="new_rate[lot_id]" value="<?=$lot['id']; ?>">
-                        <span class="form__error"><?=$errors['cost']; ?></span>
-                    </p>
-                    <button type="submit" class="button">Сделать ставку</button>
-                </form>
-            </div>
+                    <form class="lot-item__form" action="/add_rate.php" method="post">
+                        <?php $classname = isset($errors['cost']) ? "form__item--invalid" : "";
+                        $value = isset($new_rate['cost']) ? esc($new_rate['cost']) : ($lot['price'] + $lot['rate_step']); ?>
+                        <p class="lot-item__form-item form__item <?=$classname; ?>">
+                            <label for="cost">Ваша ставка</label>
+                            <input id="cost" type="text" name="new_rate[cost]" placeholder="от <?=($lot['price'] + $lot['rate_step']); ?>">
+                            <input type="hidden" name="new_rate[lot_id]" value="<?=$lot['id']; ?>">
+                            <span class="form__error"><?=$errors['cost'] ?? ""; ?></span>
+                        </p>
+                        <button type="submit" class="button">Сделать ставку</button>
+                    </form>
+                </div>
             <?php endif; ?>
             <div class="history">
                 <h3>История ставок (<span><?=count($rates); ?></span>)</h3>
