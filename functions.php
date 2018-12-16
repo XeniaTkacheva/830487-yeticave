@@ -58,7 +58,7 @@ function check_time_end($dt_end) {
     $days_to_end = floor(($sec_to_end) / 86400);
     $hours_to_end = floor(($sec_to_end - $days_to_end * 86400) / 3600);
     $minutes_to_end = floor(($sec_to_end - $days_to_end * 86400 - $hours_to_end * 3600) / 60);
-    $time_format = sprintf('%02d д %02d ч %02d м', $days_to_end, $hours_to_end, $minutes_to_end);
+    $time_format = sprintf('%02dд %02dч %02dм', $days_to_end, $hours_to_end, $minutes_to_end);
     return $time_format;
 };
 
@@ -81,7 +81,7 @@ function getLotById ($con, $lot_get) {
     JOIN categories c ON l.cat_id = c.id
     LEFT JOIN rates r ON l.id = r.lot_id
     JOIN users u ON u.id = l.user_id
-    WHERE l.id = ' . $lot_get . '
+    WHERE l.id = ' . mysqli_real_escape_string($con, $lot_get) . '
     GROUP BY l.id;';
 
     $result = checkQuery($con, $sql);
@@ -108,6 +108,17 @@ function getCatIdByName ($con, $cat_name) {
     }
     $cat_id = (int) $cat_id_arr['id'];
     return $cat_id;
+};
+function getRateByLotId ($con, $lot_get) {
+    $sql = 'SELECT  r.dt_add, rate_sum, user_id, lot_id, u.name FROM rates r
+JOIN users u ON u.id = r.user_id
+WHERE lot_id = ' . mysqli_real_escape_string($con, $lot_get) . '
+ORDER BY dt_add DESC;';
+
+    $result = checkQuery($con, $sql);
+    $rates = mysqli_fetch_array($result);
+
+    return $rates;
 };
 
 function db_get_prepare_stmt($link, $sql, $data = []) {
