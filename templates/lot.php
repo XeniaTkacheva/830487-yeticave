@@ -32,14 +32,15 @@
                         Мин. ставка <span><?=($lot['price'] + $lot['rate_step']); ?></span>
                     </div>
                 </div>
-                <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
+
+                <form class="lot-item__form" action="/add_rate.php" method="post">
                     <?php $classname = isset($errors['cost']) ? "form__item--invalid" : "";
-                    $value = isset($new_rate['cost']) ? esc($new_rate['cost']) : ""; ?>
-                    <p class="lot-item__form-item form__item form__item--invalid">
+                    $value = isset($new_rate['cost']) ? esc($new_rate['cost']) : ($lot['price'] + $lot['rate_step']); ?>
+                    <p class="lot-item__form-item form__item <?$classname; ?>">
                         <label for="cost">Ваша ставка</label>
-                        <input id="cost" type="text" name="new_rate[cost]" placeholder="<?=($lot['price'] + $lot['rate_step']); ?>">
+                        <input id="cost" type="text" name="new_rate[cost]" placeholder="от <?=($lot['price'] + $lot['rate_step']); ?>">
                         <input type="hidden" name="new_rate[lot_id]" value="<?=$lot['id']; ?>">
-                        <span class="form__error">Введите вашу ставку</span>
+                        <span class="form__error"><?=$errors['cost']; ?></span>
                     </p>
                     <button type="submit" class="button">Сделать ставку</button>
                 </form>

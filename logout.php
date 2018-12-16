@@ -13,6 +13,5 @@ $layout_content = include_template('layout.php', [
     'categories' => $categories ?? [],
     'user_name' => $user_name,
     'user_avatar' => $user_avatar,
-    'is_auth' => $is_auth
 ]);
 print($layout_content);

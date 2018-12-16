@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_SESSION['user'])) {
         $user_name = $_SESSION['user']['name'];
         $user_avatar = $_SESSION['user']['avatar'];
+        $user = $_SESSION['user'];
 
         $page_content = include_template('add_lot.php', [
             'categories' => $categories,
@@ -81,7 +82,7 @@ $layout_content = include_template('layout.php', [
     'site_name' => $site_name[0],
     'categories' => $categories ?? [],
     'user_name' => $user_name,
+    'user' => $user,
     'user_avatar' => $user_avatar,
-    'is_auth' => $is_auth
 ]);
 print($layout_content);

@@ -1,11 +1,13 @@
 <?php
-$is_auth = 0;//rand(0, 1);
+//$is_auth = 0;//rand(0, 1);
 
 date_default_timezone_set('Europe/Berlin');
 
 $site_name = ['Главная страница', 'Регистрация аккаунта', 'Вход на сайт', 'Лоты по категории', 'Результаты поиска', 'Добавление нового лота', 'Просмотр лота', 'Список моих ставок'];
-$user_name = 'Xenia Tkacheva'; // укажите здесь ваше имя
-$user_avatar = 'img/user.jpg';
+$user_name = null;
+$user_avatar = null;
+$user = null;
+
 //$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 //$lots = [
 //    [
