@@ -6,12 +6,4 @@ session_start();
 
 unset($_SESSION['user']);
 header("Location: /index.php");
-
-$layout_content = include_template('layout.php', [
-    'content' => $page_content,
-    'site_name' => $site_name[0],
-    'categories' => $categories ?? [],
-    'user_name' => $user_name,
-    'user_avatar' => $user_avatar,
-]);
-print($layout_content);
+exit;
