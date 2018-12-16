@@ -108,7 +108,12 @@ if (isset($_SESSION['user'])) {
     }
 
 } else {
-    header("Location: index.php");
+        http_response_code(403);
+        $error = 'Код ошибки: ' . http_response_code();
+        $content = include_template('error.php', ['error' => $error]);
+        print($content);
+
+//    header("Location: index.php");
     exit;
 };
 
