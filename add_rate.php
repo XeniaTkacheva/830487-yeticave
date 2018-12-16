@@ -37,6 +37,7 @@ if (isset($_SESSION['user'])) {
                 $errors['cost'] = 'Введите вашу ставку равную или больше минимальной';
             }
         }
+        $rates = getRatesByLotId ($con, $lot['id']);
 
         if (count($errors)) {
 //            $errors['form'] = 'Пожалуйста, исправьте ошибки в форме.';
@@ -47,13 +48,13 @@ if (isset($_SESSION['user'])) {
                 'categories' => $categories,
                 'lots' => $lots,
                 'lot' => $lot,
-            ]);
+                'rates' => $rates,
+                ]);
         } else {
             $sql = 'INSERT INTO rates SET rate_sum = ' . mysqli_real_escape_string($con, ((int)$new_rate['cost'])) . ', user_id = ' . $user_id . ', lot_id = ' . $lot['id'] . ';';
             $result = checkQuery($con, $sql);
             if ($result) {
-//                $lot = mysqli_insert_id($con);
-                header("Location: index.php");
+                header("Location: lot.php.?id=" . $lot['id']);
                 exit;
             } else {
                 $content = include_template('error.php', ['error' => mysqli_error($con)]);
@@ -81,6 +82,5 @@ $layout_content = include_template('layout.php', [
     'user' => $user,
     'user_name' => $user_name,
     'user_avatar' => $user_avatar,
-    'errors' => $errors,
 ]);
 print($layout_content);

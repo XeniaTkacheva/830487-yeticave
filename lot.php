@@ -10,7 +10,6 @@ if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
 }
 
-$errors = [];
 $lot_get = (int)$_GET['id'];
 $lot = getLotById($con, $lot_get);
 if (isset($lot) == false) {
@@ -21,10 +20,13 @@ if (isset($lot) == false) {
     die;
 }
 
+$rates = getRatesByLotId ($con, $lot['id']);
+
 $page_content = include_template('lot.php', [
     'categories' => $categories,
     'lots' => $lots,
     'lot' => $lot,
+    'rates' => $rates,
 ]);
 
 $layout_content = include_template('layout.php', [
@@ -34,6 +36,5 @@ $layout_content = include_template('layout.php', [
     'user' => $user,
     'user_name' => $user_name,
     'user_avatar' => $user_avatar,
-    'errors' => $errors,
 ]);
 print($layout_content);
