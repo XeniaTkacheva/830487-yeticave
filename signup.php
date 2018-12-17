@@ -4,7 +4,7 @@ require_once('data.php');
 require_once('queries.php');
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_user = $_POST['new_user'];
 
     $required = ['email', 'password', 'user_name', 'contacts'];

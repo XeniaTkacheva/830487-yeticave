@@ -4,8 +4,7 @@ require_once('data.php');
 require_once('queries.php');
 
 if (isset($user)) {
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $for_sale = $_POST['for_sale'];
 
         $required = ['title', 'category', 'description', 'price_start', 'step', 'dt_end'];
@@ -35,7 +34,6 @@ if (isset($user)) {
                 $file_path = __DIR__ . '/img/';
                 $file_url = '/img/' . $file_name;
                 move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
-    //    print("<a href='$file_url'>$file_name</a>");
             }
         } else {
             $errors['picture'] = 'Вы не загрузили файл';
@@ -52,7 +50,6 @@ if (isset($user)) {
         if (empty($for_sale['step']) || $for_sale['step'] <= 0 || $for_sale['step'] !== (string)(int)$for_sale['step'])  {
             $errors['step'] = 'Введите шаг ставки в виде положительного целого числа';
         }
-    //    $for_sale['dt_end'] = date("d.m.Y" , strtotime($for_sale['dt_end']));
 
         if (!empty($for_sale['dt_end'])) {
             if (strtotime($for_sale['dt_end']) < strtotime('tomorrow')) {
@@ -77,12 +74,11 @@ if (isset($user)) {
         } else {
             $for_sale['picture'] = $file_url;
 
-            $cat_name = $for_sale['category'];
-            $cat_id = getCatIdByName ($con, $cat_name);
-
+//            $cat_name = $for_sale['category'];
+//            $cat_id = getCatIdByName ($con, $cat_name);
             $sql = 'INSERT INTO lots (dt_add, cat_id, user_id, name, description, picture, price_start, rate_step, dt_end) 
                     VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
-            $stmt = db_get_prepare_stmt($con, $sql, [$cat_id, $user['id'], $for_sale['title'], $for_sale['description'],
+            $stmt = db_get_prepare_stmt($con, $sql, [(int) $for_sale['category'], $user['id'], $for_sale['title'], $for_sale['description'],
                 $for_sale['picture'], $for_sale['price_start'], $for_sale['step'], $for_sale['dt_end']]);
             $res = mysqli_stmt_execute($stmt);
 

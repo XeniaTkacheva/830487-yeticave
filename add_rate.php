@@ -5,8 +5,7 @@ require_once('queries.php');
 
 if (isset($user)) {
     $user_id = $_SESSION['user']['id'];
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $new_rate = $_POST['new_rate'];
 
         $lot_get = (int) $new_rate['lot_id'];

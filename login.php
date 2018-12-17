@@ -3,7 +3,7 @@ require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $old_user = $_POST['old_user'];
 
     $required = ['email', 'password'];
@@ -19,23 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (filter_var($old_user['email'], FILTER_VALIDATE_EMAIL)) {
             $user = getAllAboutUser($con, $old_user['email']);
             if (!$user) {
-//                print ('Емейл НЕ нашла');
                 $errors['email'] = 'Пользователь с таким E-mail не найден';
             }
             if (!count($errors) and $user) {
-//                print ('Емейл нашла, проверяю пароль');
                 if (password_verify($old_user['password'], $user['password'])) {
-//                    print ('Все хорошо, пароль правильный');
-
                     $_SESSION['user'] = $user;
                 } else {
-//                    print ('Пароль НЕ правильный');
-
                     $errors['password'] = 'Вы ввели неверный пароль';
                 }
             }
         } else {
-//            print ('Это вообще НЕ емейл!');
             $errors['email'] = 'Введите действующий E-mail в правильном формате';
         }
     }

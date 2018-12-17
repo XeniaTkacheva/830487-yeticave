@@ -3,8 +3,6 @@ require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
 
-// Подключаем шаблоны
-
 if (isset($user)) {
     $page_content = include_template('index.php', [
         'categories' => $categories,
