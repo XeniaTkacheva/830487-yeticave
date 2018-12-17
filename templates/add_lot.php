@@ -2,7 +2,7 @@
     <ul class="nav__list container">
         <?php foreach ($categories as $val): ?>
             <li class="nav__item">
-                <a href="all-lots.html"><?=esc($val['name']); ?></a>
+                <a href="/index.php"><?=esc($val['name']); ?></a>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -17,7 +17,7 @@
         <div class="form__item <?=$classname;?>"> <!-- form__item--invalid -->
             <label for="lot-name">Наименование</label>
             <input id="lot-name" type="text" name="for_sale[title]" placeholder="Введите наименование лота" value="<?=$value; ?>" required>
-            <span class="form__error"><?=$errors['title']; ?></span>
+            <span class="form__error"><?=$errors['title'] ?? ""; ?></span>
         </div>
         <?php $classname = isset($errors['category']) ? "form__item--invalid" : ""; ?>
         <div class="form__item">
@@ -27,7 +27,7 @@
                     <option><?=esc($val['name']); ?></option>
                 <?php endforeach; ?>
             </select>
-            <span class="form__error"><?=$errors['category']; ?></span>
+            <span class="form__error"><?=$errors['category'] ?? ""; ?></span>
         </div>
     </div>
     <?php $classname = isset($errors['description']) ? "form__item--invalid" : "";
@@ -60,21 +60,21 @@
         <div class="form__item form__item--small <?=$classname;?>">
             <label for="lot-rate">Начальная цена</label>
             <input id="lot-rate" type="number" name="for_sale[price_start]" value="<?=$value; ?>" placeholder="0" required>
-            <span class="form__error"><?=$errors['price_start']; ?></span>
+            <span class="form__error"><?=$errors['price_start'] ?? ""; ?></span>
         </div>
         <?php $classname = isset($errors['step']) ? "form__item--invalid" : "";
         $value = isset($for_sale['step']) ? esc($for_sale['step']) : ""; ?>
         <div class="form__item form__item--small <?=$classname;?>">
             <label for="lot-step">Шаг ставки</label>
             <input id="lot-step" type="number" name="for_sale[step]" value="<?=$value; ?>" placeholder="0" required>
-            <span class="form__error"><?=$errors['step']; ?></span>
+            <span class="form__error"><?=$errors['step'] ?? ""; ?></span>
         </div>
         <?php $classname = isset($errors['dt_end']) ? "form__item--invalid" : "";
         $value = isset($for_sale['dt_end']) ? esc($for_sale['dt_end']) : ""; ?>
         <div class="form__item <?=$classname;?>">
             <label for="lot-date">Дата окончания торгов</label>
             <input class="form__input-date" id="lot-date" type="date"  name="for_sale[dt_end]" value="<?=$value; ?>">
-            <span class="form__error"><?=$errors['dt_end']; ?></span>
+            <span class="form__error"><?=$errors['dt_end'] ?? ""; ?></span>
         </div>
     </div>
     <span class="form__error form__error--bottom"><?=$errors['form']; ?></span>

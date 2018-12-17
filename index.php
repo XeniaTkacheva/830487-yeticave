@@ -2,15 +2,10 @@
 require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
-session_start();
 
 // Подключаем шаблоны
 
-if (isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-    $user_name = $_SESSION['user']['name'];
-    $user_avatar = $_SESSION['user']['avatar'];
-
+if (isset($user)) {
     $page_content = include_template('index.php', [
         'categories' => $categories,
         'lots' => $lots,

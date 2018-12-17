@@ -2,13 +2,8 @@
 require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
-session_start();
 
-if (isset($_SESSION['user'])) {
-    $user_name = $_SESSION['user']['name'];
-    $user_avatar = $_SESSION['user']['avatar'];
-    $user = $_SESSION['user'];
-
+if (isset($user)) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $for_sale = $_POST['for_sale'];

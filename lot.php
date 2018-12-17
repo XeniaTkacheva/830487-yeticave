@@ -2,13 +2,8 @@
 require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
-session_start();
 
-if (isset($_SESSION['user'])) {
-    $user_name = $_SESSION['user']['name'];
-    $user_avatar = $_SESSION['user']['avatar'];
-    $user = $_SESSION['user'];
-} else {
+if (!isset($user)) {
     $rate_add['not_user'] = 'Вы не авторизованы';
 };
 
