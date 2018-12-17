@@ -74,8 +74,6 @@ if (isset($user)) {
         } else {
             $for_sale['picture'] = $file_url;
 
-//            $cat_name = $for_sale['category'];
-//            $cat_id = getCatIdByName ($con, $cat_name);
             $sql = 'INSERT INTO lots (dt_add, cat_id, user_id, name, description, picture, price_start, rate_step, dt_end) 
                     VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
             $stmt = db_get_prepare_stmt($con, $sql, [(int) $for_sale['category'], $user['id'], $for_sale['title'], $for_sale['description'],
@@ -105,9 +103,7 @@ if (isset($user)) {
         $error = 'Код ошибки: ' . http_response_code();
         $content = include_template('error.php', ['error' => $error]);
         print($content);
-
-//    header("Location: index.php");
-    exit;
+        exit;
 };
 
 $layout_content = include_template('layout.php', [
