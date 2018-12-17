@@ -2,7 +2,7 @@
 require_once ('functions.php');
 require_once('data.php');
 require_once('queries.php');
-session_start();
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_user = $_POST['new_user'];
