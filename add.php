@@ -86,8 +86,8 @@ if (isset($_SESSION['user'])) {
             $cat_id = getCatIdByName ($con, $cat_name);
 
             $sql = 'INSERT INTO lots (dt_add, cat_id, user_id, name, description, picture, price_start, rate_step, dt_end) 
-                    VALUES (NOW(), ?, 1, ?, ?, ?, ?, ?, ?)';
-            $stmt = db_get_prepare_stmt($con, $sql, [$cat_id, $for_sale['title'], $for_sale['description'],
+                    VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
+            $stmt = db_get_prepare_stmt($con, $sql, [$cat_id, $user['id'], $for_sale['title'], $for_sale['description'],
                 $for_sale['picture'], $for_sale['price_start'], $for_sale['step'], $for_sale['dt_end']]);
             $res = mysqli_stmt_execute($stmt);
 

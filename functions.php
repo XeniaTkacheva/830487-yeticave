@@ -156,7 +156,7 @@ function addAvatarToUser ($con, $user_id, $file_url) {
     return $result;
 };
 
-function checkUniqueEmail($con, $value) {
+function checkUniqueEmail ($con, $value) {
     $sql =  'SELECT id, email FROM users WHERE email = "' . mysqli_real_escape_string($con, $value) . '" LIMIT 1;';
     $result = checkQuery($con, $sql);
     $check = mysqli_fetch_assoc($result);
@@ -166,10 +166,25 @@ function checkUniqueEmail($con, $value) {
     return true;
 };
 
-function getAllAboutUser($con, $value) {
-    $sql =  'SELECT * FROM users WHERE email = "' . mysqli_real_escape_string($con, $value) . '";';
+function getAllAboutUser ($con, $value)
+{
+    $sql = 'SELECT * FROM users WHERE email = "' . mysqli_real_escape_string($con, $value) . '";';
     $result = checkQuery($con, $sql);
     $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
     return $user;
-}
+};
+
+function getRatesByLotId ($con, $value) {
+    $sql = 'SELECT  r.dt_add, rate_sum, user_id, lot_id, u.name FROM rates r
+JOIN users u ON u.id = r.user_id
+WHERE lot_id = ' . mysqli_real_escape_string($con, $value) . '
+ORDER BY dt_add DESC;';
+
+    $result = checkQuery($con, $sql);
+
+    $rates = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $rates;
+};
+
