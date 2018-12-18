@@ -20,11 +20,12 @@
             <span class="form__error"><?=$errors['title'] ?? ""; ?></span>
         </div>
         <?php $classname = isset($errors['category']) ? "form__item--invalid" : ""; ?>
-        <div class="form__item">
+        <div class="form__item <?=$classname;?>">
             <label for="category">Категория</label>
-            <select id="category" name="for_sale[category]" required>
+            <select id="category" name="for_sale[category]"  required>
+                <option label="Выберите категорию"></option>
                 <?php foreach ($categories as $val): ?>
-                    <option><?=esc($val['name']); ?></option>
+                    <option value="<?=esc($val['id']); ?>"><?=esc($val['name']); ?></option>
                 <?php endforeach; ?>
             </select>
             <span class="form__error"><?=$errors['category'] ?? ""; ?></span>

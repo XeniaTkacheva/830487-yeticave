@@ -90,3 +90,8 @@ SELECT  r.dt_add, rate_sum, user_id, lot_id, u.name FROM rates r
 JOIN users u ON u.id = r.user_id
 WHERE lot_id = 1
 ORDER BY dt_add DESC;
+
+// Полнотекстовый логический поисковый запрос
+
+SELECT * FROM lots
+WHERE MATCH (name, description) AGAINST('слово' IN BOOLEAN MODE);

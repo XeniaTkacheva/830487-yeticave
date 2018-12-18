@@ -37,18 +37,6 @@ function esc($str) {
     return $text;
 };
 
-// Функция расчета времени до полуночи
-
-function to_midnight() {
-    $cur_time = strtotime('now');
-    $midnight = strtotime('tomorrow midnight');
-    $sec_to_midnight = $midnight - $cur_time;
-    $hours_to_midnight = floor(($sec_to_midnight) / 3600);
-    $minutes_to_midnight = floor(($sec_to_midnight - $hours_to_midnight * 3600) / 60);
-    $time_format = sprintf('%02d:%02d', $hours_to_midnight, $minutes_to_midnight);
-    return $time_format;
-};
-
 // Функция расчета времени до окончания лота
 
 function check_time_end($dt_end) {
@@ -90,25 +78,6 @@ function getLotById ($con, $lot_get) {
     return $lot;
 };
 
-function getCatIdByName ($con, $cat_name) {
-    $sql = 'SELECT id
-    FROM categories 
-    WHERE name = "' . mysqli_real_escape_string($con, $cat_name) . '";';
-
-    //    WHERE name = "' . esc($cat_name) . '";';
-
-    $result = checkQuery($con, $sql);
-    $cat_id_arr = mysqli_fetch_assoc($result);
-    if ($cat_id_arr === null) {
-        http_response_code(404);
-        $error = http_response_code();
-        $content = include_template('error_404.php', ['error' => $error]);
-        print($content);
-        die;
-    }
-    $cat_id = (int) $cat_id_arr['id'];
-    return $cat_id;
-};
 function getRateByLotId ($con, $lot_get) {
     $sql = 'SELECT  r.dt_add, rate_sum, user_id, lot_id, u.name FROM rates r
 JOIN users u ON u.id = r.user_id
@@ -188,16 +157,4 @@ ORDER BY dt_add DESC;';
     return $rates;
 };
 
-function renameImgGetUrl ($file_type) {
-    if ($file_type === "image/png") {
-        $file_name = uniqid() . '.png';
-    } elseif ($file_type === "image/jpg") {
-        $file_name = uniqid() . '.jpg';
-    } elseif ($file_type === "image/jpeg") {
-        $file_name = uniqid() . '.jpeg';
-    }
-    $file_path = __DIR__ . '/img/';
-    $file_url = '/img/' . $file_name;
-    move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
-    return $file_url;
-};
+

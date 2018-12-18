@@ -28,7 +28,7 @@ CREATE TABLE lots (
   cat_id INT(11) NOT NULL,
   picture CHAR(80) NOT NULL,
   price_start INT(11) NOT NULL,
-  dt_end TIMESTAMP NOT NULL,
+  dt_end TIMESTAMP NOT NULL DEFAULT "2000-01-01 00:00:00",
   rate_step INT(11),
   user_id INT(11) NOT NULL,
   winner_id INT(11) DEFAULT NULL,
@@ -50,3 +50,5 @@ CREATE TABLE rates (
 alter table lots
   add   FOREIGN KEY (`winner_id`) REFERENCES `users` (`id`);
 
+CREATE FULLTEXT INDEX lot_ft_search
+ON lots(name, description);

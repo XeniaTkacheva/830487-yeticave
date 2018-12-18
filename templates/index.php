@@ -6,7 +6,6 @@
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="/index.php"><?=esc($val['name']); ?></a>
             </li>
-            <!--заполните этот список из массива категорий-->
         <?php endforeach; ?>
     </ul>
 </section>
@@ -16,7 +15,6 @@
     </div>
     <ul class="lots__list">
         <?php foreach($lots as $val): ?>
-            <!--заполните этот список из массива с товарами-->
             <?= include_template('_lot.php', ['val' => $val]); ?>
         <?php endforeach; ?>
     </ul>
