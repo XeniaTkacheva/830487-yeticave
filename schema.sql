@@ -50,3 +50,5 @@ CREATE TABLE rates (
 alter table lots
   add   FOREIGN KEY (`winner_id`) REFERENCES `users` (`id`);
 
+CREATE FULLTEXT INDEX lot_ft_search
+ON lots(name, description);

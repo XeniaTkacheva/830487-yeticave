@@ -25,6 +25,8 @@ $result = checkQuery($con, $sql);
 
 $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+// Делаем следующий запрос
+
 $sql = 'SELECT DISTINCT l.id, l.name AS title, price_start, picture AS image_url, c.name AS category, dt_end, MAX(IF(rate_sum IS NULL, price_start, rate_sum)) AS price, COUNT(lot_id) AS rates_number
   FROM lots l
   JOIN categories c ON l.cat_id = c.id
