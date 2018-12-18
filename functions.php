@@ -157,4 +157,27 @@ ORDER BY dt_add DESC;';
     return $rates;
 };
 
+/**
+ * Получает массив действующих лотов на основе готового SQL запроса и GET запроса из формы поиска
+ *
+ * @param $con mysqli Ресурс соединения
+ * @param $search string Запрос _GET из строки писка
+ *
+ * @return array $lots  массив действующих лотов
+ */
+
+function searchLots ($con, $search) {
+    $sql = 'SELECT DISTINCT l.id, l.name AS title, price_start, picture AS image_url, c.name AS category, dt_end, MAX(IF(rate_sum IS NULL, price_start, rate_sum)) AS price, COUNT(lot_id) AS rates_number
+  FROM lots l
+  JOIN categories c ON l.cat_id = c.id
+  LEFT JOIN rates r ON l.id = r.lot_id
+  WHERE dt_end > CURRENT_TIMESTAMP and winner_id IS NULL
+  and MATCH (l.name, description) AGAINST("' . mysqli_real_escape_string($con, $search) . '"  IN BOOLEAN MODE)
+  GROUP BY l.id, l.name, price_start, picture, c.name
+  ORDER BY l.id DESC;';
+    $result = checkQuery($con, $sql);
+    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $lots;
+};
 
