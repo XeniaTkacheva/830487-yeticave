@@ -90,6 +90,16 @@ ORDER BY dt_add DESC;';
     return $rates;
 };
 
+/**
+ * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
+ *
+ * @param $link mysqli Ресурс соединения
+ * @param $sql string SQL запрос с плейсхолдерами вместо значений
+ * @param array $data Данные для вставки на место плейсхолдеров
+ *
+ * @return mysqli_stmt Подготовленное выражение
+ */
+
 function db_get_prepare_stmt($link, $sql, $data = []) {
     $stmt = mysqli_prepare($link, $sql);
     if ($data) {
@@ -160,8 +170,8 @@ ORDER BY dt_add DESC;';
 /**
  * Получает массив действующих лотов на основе готового SQL запроса и GET запроса из формы поиска
  *
- * @param $con mysqli Ресурс соединения
- * @param $search string Запрос _GET из строки писка
+ * @param mysqli $con  Ресурс соединения
+ * @param string $search Запрос _GET из строки писка
  *
  * @return array $lots  массив действующих лотов
  */
@@ -173,6 +183,32 @@ function searchLots ($con, $search) {
   LEFT JOIN rates r ON l.id = r.lot_id
   WHERE dt_end > CURRENT_TIMESTAMP and winner_id IS NULL
   and MATCH (l.name, description) AGAINST("' . mysqli_real_escape_string($con, $search) . '"  IN BOOLEAN MODE)
+  GROUP BY l.id, l.name, price_start, picture, c.name
+  ORDER BY l.id DESC;';
+    $result = checkQuery($con, $sql);
+    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $lots;
+};
+
+
+/**
+ * Получает массив действующих лотов на основе готового SQL запроса и GET строки запроса из меню категории
+ *
+ * @param mysqli $con  Ресурс соединения
+ * @param integer $cat_id Запрос _GET из меню категорий
+ *
+ * @return array $lots  массив действующих лотов
+ */
+
+function getLotsByCatId ($con, $cat_id) {
+    $sql = 'SELECT DISTINCT l.id, l.name AS title, price_start, picture AS image_url, c.name AS category, dt_end, 
+MAX(IF(rate_sum IS NULL, price_start, rate_sum)) AS price, COUNT(lot_id) AS rates_number
+  FROM lots l
+  JOIN categories c ON l.cat_id = c.id
+  LEFT JOIN rates r ON l.id = r.lot_id
+  WHERE dt_end > CURRENT_TIMESTAMP and winner_id IS NULL
+  and l.cat_id = ' . mysqli_real_escape_string($con, $cat_id) . '
   GROUP BY l.id, l.name, price_start, picture, c.name
   ORDER BY l.id DESC;';
     $result = checkQuery($con, $sql);

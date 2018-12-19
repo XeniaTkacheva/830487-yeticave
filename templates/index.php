@@ -4,7 +4,7 @@
     <ul class="promo__list">
         <?php foreach ($categories as $val): ?>
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="/index.php"><?=esc($val['name']); ?></a>
+                <a class="promo__link" href="/cat_lots.php?cat_id=<?=esc($val['id']); ?>"><?=esc($val['name']); ?></a>
             </li>
         <?php endforeach; ?>
     </ul>

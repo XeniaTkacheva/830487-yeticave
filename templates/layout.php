@@ -56,7 +56,7 @@
             <?php foreach ($categories as $val): ?>
                 <!--заполните этот список из массива категорий-->
                 <li class="nav__item">
-                    <a href="/index.php"><?=esc($val['name']); ?></a>
+                    <a href="/cat_lots.php?cat_id=<?=esc($val['id']); ?>"><?=esc($val['name']); ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
